@@ -12,7 +12,7 @@ router.post('/createContent', async (req, res) => {
             content_id,
              content,
              creater,
-             hastags,
+             hashtags,
              public_date,
              finish_date,
              keywords,
@@ -21,7 +21,16 @@ router.post('/createContent', async (req, res) => {
          const collection = database.collection('contents'); // Koleksiyon adı
 
         // Veriyi ekleme
-         const result = await collection.insertOne({content_id, content,creater,hastags,public_date,finish_date,keywords,firm});
+         const result = await collection.insertOne(
+            {
+             content_id,
+             content,
+             creater,
+             hashtags: Array.isArray(hashtags) ? hashtags : [hashtags], // Hashtags diziye dönüştürülüyor
+             public_date,
+             finish_date,
+             keywords: Array.isArray(keywords) ? keywords : [keywords],
+             firm});
          console.log(`${result.insertedCount} adet kullanıcı eklendi.`);
          res.status(201).send('Kullanıcı başarıyla eklendi.');
      } catch (error) {
@@ -29,20 +38,28 @@ router.post('/createContent', async (req, res) => {
          res.status(500).send('Kullanıcı eklenirken bir hata oluştu.');
     }
 });
+router.put('/updateContent/:content_id',  async (req, res) => {
+    const database = client.db('stajUygulaması'); // Veritabanı adı
+    const collection = database.collection('contents'); // Koleksiyon adı
 
-router.get('/contents', async (req, res) => {
-    try {
-        const database = client.db('stajUygulaması'); // Veritabanı adı
-        const collection = database.collection('contents'); // Koleksiyon adı
-
-        // Belirli bir koşula göre belirli belgeleri getirme
-        const content = await collection.find({}).toArray();
-        res.json(content);
-    } catch (error) {
-        console.error('Belgeleri getirme sırasında bir hata oluştu:', error);
-        res.status(500).send('Belgeleri getirirken bir hata oluştu.');
-    }
-});
+    const {content_id} = req.params; 
+    const {content,creater,hashtags,public_date,finish_date,keywords,firm}=req.body;
+    const contentCheck = await collection.findOne({content_id:content_id})
+        
+        const contents = await collection.updateOne(
+            { content_id:content_id},
+            {$set: {content,
+                    creater,
+                    hashtags: Array.isArray(hashtags) ? hashtags : [hashtags], // Hashtags diziye dönüştürülüyor
+                    public_date,
+                    finish_date,
+                    keywords: Array.isArray(keywords) ? keywords : [keywords],
+                    firm}});
+            if(!contentCheck){
+               return res.status(404).json({message:"böyle bir içerik bulunamadı."})
+            }
+        return res.status(200).json({ message: 'Updated', contents }); 
+ })
 
 router.get('/contents', async (req, res) => {
     try {
