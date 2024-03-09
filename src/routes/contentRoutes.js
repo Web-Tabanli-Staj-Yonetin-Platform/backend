@@ -40,18 +40,20 @@ router.post('/createContent', verifyToken, async (req, res) => {
          res.status(500).send('Kullanıcı eklenirken bir hata oluştu.');
     }
 });
-router.put('/updateContent/:content_id',  async (req, res) => {
+
+// her kullanıcı sadece kendi contentlerini güncelleyebilme yetkisine sahiptir.
+router.put('/updateContent/:content_id', verifyToken, async (req, res) => {
     const database = client.db('stajUygulaması'); // Veritabanı adı
     const collection = database.collection('contents'); // Koleksiyon adı
-
+    const creater =req.creater;
     const {content_id} = req.params; 
-    const {content,creater,hashtags,public_date,finish_date,keywords,firm}=req.body;
-    const contentCheck = await collection.findOne({content_id:content_id})
+    const {content,hashtags,public_date,finish_date,keywords,firm}=req.body;
+    const contentCheck = await collection.findOne({content_id:content_id , creater:creater})
+
         
         const contents = await collection.updateOne(
             { content_id:content_id},
             {$set: {content,
-                    creater,
                     hashtags: Array.isArray(hashtags) ? hashtags : [hashtags], // Hashtags diziye dönüştürülüyor
                     public_date,
                     finish_date,
