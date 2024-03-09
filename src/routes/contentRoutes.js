@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { MongoClient } = require('mongodb');
+const verifyToken = require('./verifyToken.js');
+
 
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // //Yeni content oluşturmak için kullanılacak.
-router.post('/createContent', async (req, res) => {
+router.post('/createContent', verifyToken, async (req, res) => {
    try {
        const {
             content_id,

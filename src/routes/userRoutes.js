@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { MongoClient } = require('mongodb');
+const jwt = require('jsonwebtoken');
+const secretKey = 'yourSecretKey';
 
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -41,6 +43,8 @@ router.post('/users', async (req, res) => {
             return res.status(404).json({message:"Kullanıcı adı ya da şifre hatalı."})
          }
 
+         const token = jwt.sign({ _id }, secretKey, { expiresIn: '1h' }); // Token 1 saat geçerli olacak şekilde oluşturuldu
+         res.json({ token });
          res.status(200).send('Kullanıcı başarıyla giriş yaptı.');
      } catch (error) {
          console.error('Kullanıcı güncelleme sırasında bir hata oluştu:', error);
