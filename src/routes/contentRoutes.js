@@ -77,7 +77,7 @@ router.get('/contents', async (req, res) => {
         res.status(500).send('Belgeleri getirirken bir hata oluştu.');
     }
 });
-
+//kendi contentlerini getirme.
 router.get('/myContents', verifyToken,async (req, res) => {
     try {
         const database = client.db('stajUygulaması'); // Veritabanı adı
@@ -92,5 +92,21 @@ router.get('/myContents', verifyToken,async (req, res) => {
     }
 });
 
+router.get('/contents/:hashtag', async(req, res) =>{
+    try{
+        const database = client.db('stajUygulaması');
+        const collection = database.collection('contents');
+        const hashtag= req.params;
+
+        const content = await collection.find({hashtags:hashtag}).toArray();
+        if(!content){
+            res.status(404).send('Aranan hashtagte bir içerik bulunamamıştır.');
+        }
+        res.json(content);
+    }catch(error){
+        console.error('Belgeleri getirme sırasında bir hata oluştu.',error);
+        res.status(500).send('Belgeleri getirirken bir hata oluştu.');
+    }
+});
 
 module.exports = router;
