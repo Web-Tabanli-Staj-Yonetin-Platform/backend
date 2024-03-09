@@ -3,7 +3,6 @@ const router = express.Router();
 const { MongoClient } = require('mongodb');
 const verifyToken = require('./verifyToken.js');
 
-
 const uri = 'mongodb://localhost:27017';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -11,7 +10,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 router.post('/createContent', verifyToken, async (req, res) => {
    try {
        const {
-            content_id,
+             content_id,
              content,
              hashtags,
              public_date,
@@ -63,7 +62,7 @@ router.put('/updateContent/:content_id', verifyToken, async (req, res) => {
                return res.status(404).json({message:"böyle bir içerik bulunamadı."})
             }
         return res.status(200).json({ message: 'Updated', contents }); 
- })
+ });
 
 router.get('/contents', async (req, res) => {
     try {
@@ -78,5 +77,20 @@ router.get('/contents', async (req, res) => {
         res.status(500).send('Belgeleri getirirken bir hata oluştu.');
     }
 });
+
+router.get('/myContents', verifyToken,async (req, res) => {
+    try {
+        const database = client.db('stajUygulaması'); // Veritabanı adı
+        const collection = database.collection('contents'); // Koleksiyon adı
+        const creater= req.creater;
+        // Belirli bir koşula göre belirli belgeleri getirme
+        const content = await collection.find({creater:creater}).toArray();
+        res.json(content);
+    } catch (error) {
+        console.error('Belgeleri getirme sırasında bir hata oluştu:', error);
+        res.status(500).send('Belgeleri getirirken bir hata oluştu.');
+    }
+});
+
 
 module.exports = router;
