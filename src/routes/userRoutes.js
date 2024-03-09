@@ -43,9 +43,12 @@ router.post('/users', async (req, res) => {
             return res.status(404).json({message:"Kullanıcı adı ya da şifre hatalı."})
          }
 
-         const token = jwt.sign({ _id }, secretKey, { expiresIn: '1h' }); // Token 1 saat geçerli olacak şekilde oluşturuldu
-         res.json({ token });
-         res.status(200).send('Kullanıcı başarıyla giriş yaptı.');
+         const token = jwt.sign({ _id }, secretKey, { expiresIn: '1h' });
+         res.cookie('authToken', token, {
+            httpOnly: true,
+            secure: true, // Sadece HTTPS üzerinden gönder
+            sameSite: 'strict' // Sadece aynı siteye gönder
+        }).send('Token oluşturuldu ve cookie\'ye yerleştirildi.'); // Token 1 saat geçerli olacak şekilde oluşturuldu
      } catch (error) {
          console.error('Kullanıcı güncelleme sırasında bir hata oluştu:', error);
          res.status(500).send('Kullanıcı güncellenirken bir hata oluştu.');

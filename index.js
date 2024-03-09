@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const userRoutes = require('./src/routes/userRoutes');
 const contentRoutes = require('./src/routes/contentRoutes');
 const { MongoClient } = require('mongodb');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -22,6 +23,7 @@ async function connectToMongoDB() {
 }
 
 connectToMongoDB();
+app.use(cookieParser());
 app.use(bodyParser.json());
 // Kullanıcı route'larını tanımlayın
 app.use('/api', userRoutes);

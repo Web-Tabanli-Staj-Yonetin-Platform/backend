@@ -13,12 +13,12 @@ router.post('/createContent', verifyToken, async (req, res) => {
        const {
             content_id,
              content,
-             creater,
              hashtags,
              public_date,
              finish_date,
              keywords,
              firm } = req.body; // POST isteğinden gelen veriler
+             const creater = req.creater;
          const database = client.db('stajUygulaması'); // Veritabanı adı
          const collection = database.collection('contents'); // Koleksiyon adı
 
