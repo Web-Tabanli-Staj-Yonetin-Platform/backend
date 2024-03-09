@@ -1,7 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const userRoutes = require('/Users/senakanik/Desktop/stajbackend/stajbackend/src/routes/userRoutes.js');
+const userRoutes = require('./src/routes/userRoutes');
+const contentRoutes = require('./src/routes/contentRoutes');
 const { MongoClient } = require('mongodb');
 
 const app = express();
@@ -24,6 +25,7 @@ connectToMongoDB();
 app.use(bodyParser.json());
 // Kullanıcı route'larını tanımlayın
 app.use('/api', userRoutes);
+app.use('/api', contentRoutes);
 
 // Sunucuyu dinlemeye başla
 const PORT = process.env.PORT || 5005;

@@ -27,49 +27,27 @@ router.post('/users', async (req, res) => {
         res.status(500).send('Kullanıcı eklenirken bir hata oluştu.');
     }
 });
-// //kullanıcı adına göre kullanıcı güncelleme
-// router.post('/update', async (req, res) => {
-//     try {
-//         const { username } = req.params; // Güncellenecek kullanıcı adı
-//         const { newValue } = req.body; // // POST isteğinden gelen veriler
-//         const database = client.db('stajUygulaması'); // Veritabanı adı
-//         const collection = database.collection('users'); // Koleksiyon adı
+//kullanıcı adına göre kullanıcı güncelleme
+ router.post('/login', async (req, res) => {
+     try {
 
-//         // Kullanıcıyı güncelleme
-//         const result = await collection.updateOne(
-//             { _id: username }, // Güncellenecek kullanıcıyı username'e göre bul
-//             { $set: {newValue} } // Yeni bilgileri güncelle
-//         );
+         const { _id, password } = req.body; // POST isteğinden gelen veriler
+         const database = client.db('stajUygulaması'); // Veritabanı adı
+         const collection = database.collection('users'); // Koleksiyon adı
 
-//         console.log(`${result.modifiedCount} kullanıcı güncellendi.`);
-//         res.status(200).send('Kullanıcı başarıyla güncellendi.');
-//     } catch (error) {
-//         console.error('Kullanıcı güncelleme sırasında bir hata oluştu:', error);
-//         res.status(500).send('Kullanıcı güncellenirken bir hata oluştu.');
-//     }
-// });
+         const userCheck = await collection.findOne({_id:_id, password:password});
 
-// router.put('/update/:username', async (req, res) => {
-//     try {
-//         const {username} = req.params; // Güncellenecek kullanıcı adı
-//         const updateFields = req.body; // Güncellenecek alanlar ve değerler
+         if(!userCheck){
+            return res.status(404).json({message:"Kullanıcı adı ya da şifre hatalı."})
+         }
 
-//         const database = client.db('stajUygulaması'); // Veritabanı adı
-//         const collection = database.collection('users'); // Koleksiyon adı
+         res.status(200).send('Kullanıcı başarıyla giriş yaptı.');
+     } catch (error) {
+         console.error('Kullanıcı güncelleme sırasında bir hata oluştu:', error);
+         res.status(500).send('Kullanıcı güncellenirken bir hata oluştu.');
+     }
+});
 
-//         // Kullanıcıyı güncelleme
-//         const result = await collection.updateOne(
-//             { _id: username}, // Güncellenecek kullanıcıyı username'e göre bul
-//             { $set: updateFields } // Yeni değerleri güncelle
-//         );
-//         console.log(`${result.matchedCount}`);
-//         console.log(`${result.modifiedCount} kullanıcı güncellendi.`);
-//         res.status(200).send('Kullanıcı başarıyla güncellendi.');
-//     } catch (error) {
-//         console.error('Kullanıcı güncelleme sırasında bir hata oluştu:', error);
-//         res.status(500).send('Kullanıcı güncellenirken bir hata oluştu.');
-//     }
-// });
 //_id kullanılarak user güncelleme. 
 router.put('/updateUser/:_id',  async (req, res) => {
     const database = client.db('stajUygulaması'); // Veritabanı adı
@@ -124,5 +102,27 @@ router.get('/users', async (req, res) => {
         res.status(500).send('Belgeleri getirirken bir hata oluştu.');
     }
 });
+
+// router.put('/update/:username', async (req, res) => {
+//     try {
+//         const {username} = req.params; // Güncellenecek kullanıcı adı
+//         const updateFields = req.body; // Güncellenecek alanlar ve değerler
+
+//         const database = client.db('stajUygulaması'); // Veritabanı adı
+//         const collection = database.collection('users'); // Koleksiyon adı
+
+//         // Kullanıcıyı güncelleme
+//         const result = await collection.updateOne(
+//             { _id: username}, // Güncellenecek kullanıcıyı username'e göre bul
+//             { $set: updateFields } // Yeni değerleri güncelle
+//         );
+//         console.log(`${result.matchedCount}`);
+//         console.log(`${result.modifiedCount} kullanıcı güncellendi.`);
+//         res.status(200).send('Kullanıcı başarıyla güncellendi.');
+//     } catch (error) {
+//         console.error('Kullanıcı güncelleme sırasında bir hata oluştu:', error);
+//         res.status(500).send('Kullanıcı güncellenirken bir hata oluştu.');
+//     }
+// });
 
 module.exports = router;
