@@ -69,9 +69,13 @@ public class UserServiceImpl implements UserService{
 	        }
 	        userUpdate.setFirstname(userUpdateDTO.getFirstname());
 	        userUpdate.setLastname(userUpdateDTO.getLastname());
+	        userUpdate.setBirthdate(userUpdateDTO.getBirthdate());
 	        userUpdate.setPhone(userUpdateDTO.getPhone());
 	        userUpdate.setAddress(userUpdateDTO.getAddress());
 	        userUpdate.setEducation(userUpdateDTO.getEducation());
+	        userUpdate.setDepartmand(userUpdateDTO.getDepartmand());;
+	        userUpdate.setGrade(userUpdateDTO.getGrade());
+	        userUpdate.setGradeaverage(userUpdateDTO.getGradeaverage());
 	        userUpdate.setExperience(userUpdateDTO.getExperience());
 	        userUpdate.setSkills(userUpdateDTO.getSkills());
 	        userUpdate.setHobbies(userUpdateDTO.getHobbies());      
