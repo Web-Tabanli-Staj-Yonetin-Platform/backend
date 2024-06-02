@@ -5,6 +5,7 @@ const userRoutes = require('./src/routes/userRoutes');
 const contentRoutes = require('./src/routes/contentRoutes');
 const { MongoClient } = require('mongodb');
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 const app = express();
 
