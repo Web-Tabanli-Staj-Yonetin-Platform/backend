@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 // MongoDB bağlantı URL'si
-const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb://kaniksena7:12345@ac-fy1mo8v-shard-00-00.0lqminl.mongodb.net:27017/?replicaSet=atlas-92uvrv-shard-0&ssl=true&authSource=admin';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Veritabanına bağlanma
@@ -25,7 +25,7 @@ async function startServer() {
     try {
       await connectToMongoDB();
       // Sunucuyu dinlemeye başla
-        const PORT = process.env.PORT || 5005;
+        const PORT = process.env.PORT || 5010;
         app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });

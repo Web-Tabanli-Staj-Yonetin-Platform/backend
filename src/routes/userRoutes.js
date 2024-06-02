@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb');
 const jwt = require('jsonwebtoken');
 const secretKey = 'yourSecretKey';
 
-const uri = 'mongodb://localhost:27017';
+const uri = 'mongodb://kaniksena7:12345@ac-fy1mo8v-shard-00-00.0lqminl.mongodb.net:27017/?replicaSet=atlas-92uvrv-shard-0&ssl=true&authSource=admin';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 //user _ıd olarak username kullanmaktadır. Bu sebeple database de _id kullanıcı adıdır. Kullanıcı adı aynı olan kullanıcı oluşturulamamaktadır.
 //Register için kullanılacak post işlemi...
