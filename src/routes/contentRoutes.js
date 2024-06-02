@@ -72,6 +72,7 @@ router.get('/contents', async (req, res) => {
         // Belirli bir koşula göre belirli belgeleri getirme
         const content = await collection.find({}).toArray();
         res.json(content);
+        res.status(200)
     } catch (error) {
         console.error('Belgeleri getirme sırasında bir hata oluştu:', error);
         res.status(500).send('Belgeleri getirirken bir hata oluştu.');

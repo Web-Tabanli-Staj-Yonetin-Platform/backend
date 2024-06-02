@@ -21,16 +21,26 @@ async function connectToMongoDB() {
         console.error('MongoDB bağlantısı sırasında bir hata oluştu:', error);
     }
 }
+async function startServer() {
+    try {
+      await connectToMongoDB();
+      // Sunucuyu dinlemeye başla
+        const PORT = process.env.PORT || 5005;
+        app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
+    } catch (error) {
+      console.error('Server start error:', error);
+    }
+  }
+  
+startServer();
 
-connectToMongoDB();
 app.use(cookieParser());
 app.use(bodyParser.json());
 // Kullanıcı route'larını tanımlayın
 app.use('/api', userRoutes);
 app.use('/api', contentRoutes);
 
-// Sunucuyu dinlemeye başla
-const PORT = process.env.PORT || 5005;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
+
+
