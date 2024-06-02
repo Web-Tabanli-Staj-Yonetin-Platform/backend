@@ -35,6 +35,12 @@ async function startServer() {
   }
   
 startServer();
+const corsOptions = {
+  origin: 'http://localhost:3000', // İzin verilen kaynak
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 
 app.use(cookieParser());
 app.use(bodyParser.json());
