@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const userRoutes = require('./src/routes/userRoutes');
 const contentRoutes = require('./src/routes/contentRoutes');
+const userRouter = require('./src/routes/users.js')
+const internProfileRouter = require('./src/routes/InternProfiles.js')
 const { MongoClient } = require('mongodb');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
@@ -48,6 +50,8 @@ app.use(bodyParser.json());
 // Kullanıcı route'larını tanımlayın
 app.use('/api', userRoutes);
 app.use('/api', contentRoutes);
+app.use('/users', userRouter);
+app.use('/internProfiles', internProfileRouter);
 
 
 
