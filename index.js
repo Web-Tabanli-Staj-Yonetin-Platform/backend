@@ -48,8 +48,8 @@ app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(bodyParser.json());
 // Kullanıcı route'larını tanımlayın
-app.use('/api', userRoutes);
-app.use('/api', contentRoutes);
+//app.use('/api', userRoutes);
+//app.use('/api', contentRoutes);
 app.use('/users', userRouter);
 app.use('/internProfiles', internProfileRouter);
 

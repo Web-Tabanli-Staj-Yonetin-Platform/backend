@@ -6,7 +6,7 @@ const userSchema = new mongoose.Schema({
   şifre: { type: String, required: true },
   rol: { type: String, required: true }
 },
-{collection:'Users'});
+{collection:'users'});
 
 const User = mongoose.model('users', userSchema);
 
