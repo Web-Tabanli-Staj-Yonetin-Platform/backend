@@ -8,7 +8,7 @@ const uri = 'mongodb://kaniksena7:12345@ac-fy1mo8v-shard-00-00.0lqminl.mongodb.n
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 //user _ıd olarak username kullanmaktadır. Bu sebeple database de _id kullanıcı adıdır. Kullanıcı adı aynı olan kullanıcı oluşturulamamaktadır.
 //Register için kullanılacak post işlemi...
-router.post('/users', async (req, res) => {
+router.post('/userss', async (req, res) => {
     try {
         const {
             username,
@@ -73,7 +73,7 @@ router.put('/updateUser/:_id',  async (req, res) => {
         return res.status(200).json({ message: 'Updated', user }); 
  })
 
- router.get('/users/:_id', async (req, res) => {
+ router.get('/userss/:_id', async (req, res) => {
     try {
         const { _id} = req.params; // Aranan kullanıcının adı
 
@@ -96,7 +96,7 @@ router.put('/updateUser/:_id',  async (req, res) => {
 });
 
 //Kullanıcıları listelemek için kullanılacak Get işlemi.
-router.get('/users', async (req, res) => {
+router.get('/userss', async (req, res) => {
     try {
         const database = client.db('stajUygulaması'); // Veritabanı adı
         const collection = database.collection('users'); // Koleksiyon adı

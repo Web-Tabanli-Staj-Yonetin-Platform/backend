@@ -84,7 +84,28 @@ router.get('/find/intern', async (req, res) => {
         res.status(500).send('Kullanıcı aranırken bir hata oluştu.');
     }
 });
+router.get('/find/:kullanıcı_adı', async (req, res) => {
+    try {
+      // const { kullanıcı_adı} = req.params; // Aranan kullanıcının adı
+        //console.log(kullanıcı_adı);
+        const { kullanıcı } = req.params;
+        const database = client.db('stajUygulaması'); // Veritabanı adı
+        const collection = database.collection('users'); // Koleksiyon adı
 
+        // Kullanıcıyı bul
+        const user = await collection.find({ kullanıcı_adı: kullanıcı }).toArray();
+
+        if (!user) {
+            res.status(404).send('Kullanıcı bulunamadı.');
+            return;
+        }
+
+        res.status(200).json(user); // Kullanıcıyı JSON formatında yanıtla
+    } catch (error) {
+        console.error('Kullanıcı arama sırasında bir hata oluştu:', error);
+        res.status(500).send('Kullanıcı aranırken bir hata oluştu.');
+    }
+});
 // Kullanıcıyı güncelle
 router.patch('/:kullanıcı_adı', async (req, res) => {
   try {
