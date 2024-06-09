@@ -8,21 +8,33 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 // Stajyer profili oluştur
 router.post('/', async (req, res) => {
   try {
+
     const profile = new InternProfile(req.body);
-    await profile.save();
-    res.status(201).send(profile);
-  } catch (error) {
-    res.status(400).send(error);
-  }
+    const database = client.db('stajUygulaması'); // Veritabanı adı
+    const collection = database.collection('InternProfile'); // Koleksiyon adı
+
+    // Veriyi ekleme
+    const result = await collection.insertMany(profile);
+   
+    console.log(`${result.insertedCount} adet kullanıcı eklendi.`);
+    res.status(201).send('Kullanıcı başarıyla eklendi.');
+} catch (error) {
+    console.error('Kullanıcı ekleme sırasında bir hata oluştu:', error);
+    res.status(500).send('Kullanıcı eklenirken bir hata oluştu.');
+}
 });
 
 // Tüm stajyer profillerini getir
 router.get('/', async (req, res) => {
   try {
-    const profiles = await InternProfile.find().populate('user_id eşleşilen_ilanlar başvurulan_ilanlar kabul_alınan_ilan ilan_değerlendirilme');
-    res.send(profiles);
+    //Sconst profiles = await InternProfile.find().populate('user_id eşleşilen_ilanlar başvurulan_ilanlar kabul_alınan_ilan ilan_değerlendirilme');
+    const database = client.db('stajUygulaması'); // Veritabanı adı
+    const collection = database.collection('InternProfile'); // Koleksiyon adı
+    const profiles = await collection.find({}).toArray();
+    res.json(profiles);
   } catch (error) {
-    res.status(500).send(error);
+    console.error('Belgeleri getirme sırasında bir hata oluştu:', error);
+    res.status(500).send('Belgeleri getirirken bir hata oluştu.');
   }
 });
 
