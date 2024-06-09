@@ -5,7 +5,8 @@ const jobEvaluationSchema = new mongoose.Schema({
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
   puan: { type: Number, required: true },
   yorum: { type: String, required: true }
-});
+},
+{collection:'JobEvaluations'});
 
 const JobEvaluation = mongoose.model('JobEvaluation', jobEvaluationSchema);
 

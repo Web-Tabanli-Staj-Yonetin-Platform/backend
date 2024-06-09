@@ -7,7 +7,8 @@ const jobSchema = new mongoose.Schema({
   lokasyon: { type: String, required: true },
   gereksinimler: { type: String, required: true },
   sonBaşvuruTarihi: { type: Date, required: true }
-});
+},
+{collection:'Jobs'});
 
 const Job = mongoose.model('Job', jobSchema);
 

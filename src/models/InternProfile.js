@@ -22,7 +22,9 @@ const internProfileSchema = new mongoose.Schema({
   başvurulan_ilanlar: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
   kabul_alınan_ilan: { type: mongoose.Schema.Types.ObjectId, ref: 'Job' },
   ilan_değerlendirilme: [{ type: mongoose.Schema.Types.ObjectId, ref: 'JobEvaluation' }]
-});
+},
+{collection:'InternProfile'}
+);
 
 const InternProfile = mongoose.model('InternProfile', internProfileSchema);
 
